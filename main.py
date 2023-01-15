@@ -70,7 +70,7 @@ for d in datasets:
                 if im[1] == 'gnne':
                     continue
                 print(f'Interpretability method: {im[1]}')
-                output_file = f'{im[1]}_{m}.txt'
+                output_file = f'{im[1]}_{m}_{d}.txt'
                 print(f'Writing to {output_file} ...')
                 compute_all_metrics(df_test, im[0], output_file, model,
                                     vectorizer, tokenize_func, vocab, inv_vocab,
