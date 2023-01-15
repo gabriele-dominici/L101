@@ -10,7 +10,7 @@ The report of this project is the [L101_gd489.pdf](L101_gd489.pdf) file.
 
 [main.py](main.py) runs all the experiments done. 
 
-[js.ipynb](js.ipynb) compute the Jaccard Similarity, using output files of [main.py](../tree/master/main.py)
+[js.ipynb](js.ipynb) compute the Jaccard Similarity, using output files of [main.py](main.py)
 
 ## Setup
 
