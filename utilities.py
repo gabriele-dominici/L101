@@ -1,24 +1,10 @@
 import gc
 import scipy
 import torch
-import random
-import string
-import sklearn
-import scipy as sp
-import numpy as np
 import pandas as pd
-import torch.nn.functional as F
-from tqdm import tqdm
-from functools import partial
-from nltk.corpus import stopwords
-from sklearn.utils import check_random_state
 from torchmetrics.classification import BinaryAccuracy, BinaryF1Score
 from torch_geometric.data import Data
 from torch_geometric.loader import DataLoader
-from datasets import load_dataset
-from sklearn.datasets import fetch_20newsgroups
-from sklearn.model_selection import train_test_split
-from sklearn.feature_extraction.text import TfidfVectorizer
 
 ##### Genral utils
 
@@ -148,7 +134,7 @@ def pred_graph_sentences(input_a, model, tokenize_func, vocab, device):
     gc.collect()
     result = []
     for data in data_loader:
-        output = model(data.x.to(device), data.edge_index.to(device))
+        output = model(data.x.to(device), data.edge_index.to(device), data.batch.to(device))
         output = [float(i) for i in output]
         result += output
         del data

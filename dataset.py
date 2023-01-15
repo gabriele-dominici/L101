@@ -60,7 +60,7 @@ def load_movie_dataset():
     return df_train_movie, df_dev_movie, df_test_movie
 
 def tf_idf_on_dataset(train, dev, test):
-    vectorizer = TfidfVectorizer(lowercase=True, min_df=10, max_df=0.25, norm=False)
+    vectorizer = TfidfVectorizer(lowercase=True, min_df=10, max_df=0.25, norm=None)
 
     vectorizer.fit(train['data'])
     tokenize_func = vectorizer.build_analyzer()
@@ -85,13 +85,13 @@ def prepare_for_mlp(X_train, Y_train,
                     X_dev, Y_dev,
                     X_test, Y_test):
     X_train_mlp = torch.tensor(scipy.sparse.csr_matrix.todense(X_train)).float()
-    Y_train_mlp = torch.tensor(Y_train).float()
+    Y_train_mlp = torch.tensor(Y_train.to_numpy()).float()
 
     X_dev_mlp = torch.tensor(scipy.sparse.csr_matrix.todense(X_dev)).float()
-    Y_dev_mlp = torch.tensor(Y_dev).float()
+    Y_dev_mlp = torch.tensor(Y_dev.to_numpy()).float()
 
     X_test_mlp = torch.tensor(scipy.sparse.csr_matrix.todense(X_test)).float()
-    Y_test_mlp = torch.tensor(Y_test).float()
+    Y_test_mlp = torch.tensor(Y_test.to_numpy()).float()
 
     return (X_train_mlp, Y_train_mlp,
             X_dev_mlp, Y_dev_mlp,

@@ -7,7 +7,7 @@ def compute_perturbation_curve(doc,  m, vectorizer, tokenize_func, vocab,
     # Compute AOPC https://arxiv.org/pdf/1509.06321.pdf
     values = []
     words_to_remove = []
-    prob_orig = pred(doc, mode)
+    prob_orig = pred(doc,  m, vectorizer, tokenize_func, vocab, mode)
     i = 0
     # remove k words
     for i, word in enumerate(words_to_remove_all):
@@ -59,11 +59,14 @@ def compute_all_metrics(dataset, interpretability_methods, output_file,
     graph_set_for = []
     graph_aopc_for = []
     graph_sp_for = []
-    for doc in tqdm(dataset):
+    for doc in tqdm(dataset['data']):
         graph_for = interpretability_methods(doc, model, vectorizer, tokenize_func, vocab, inv_vocab, device, mode)
         graph_set_for += [graph_for]
         graph_aopc_for += [compute_perturbation_curve(doc, model, vectorizer, tokenize_func, vocab, graph_for, mode)]
         graph_sp_for += [switching_point(doc, model, vectorizer, tokenize_func, vocab, graph_for, mode)]
+
+    print(f'AOPC+@10: {np.array(graph_aopc_for).mean()}')
+    print(f'SP: {np.array(graph_sp_for).mean()}')
 
     with open('./results/'+output_file, 'w+') as f:
         for i, el in enumerate(graph_set_for):

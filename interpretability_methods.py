@@ -1,4 +1,5 @@
 import scipy
+import random
 import pandas as pd
 from utilities import *
 from torch_geometric.loader import DataLoader
@@ -48,6 +49,7 @@ def top_k_words(doc, m,  vectorizer, split_func, vocab, inv_vocab, device, mode,
         diff += [result[0] - i]
 
     final_df = pd.DataFrame(possible_sentences, columns=['data', 'word'])
+
     final_df['prob'] = result
     final_df['diff'] = diff
     # select pos and negative words
@@ -109,6 +111,8 @@ def saliency(doc, m, vectorizer, tokenize_func, vocab, inv_vocab, device, mode, 
         saliency = data['x'].grad.data#.sum(dim=1)
 
         node_index = {i[1]: i[0] for i in tokens_used.items()}
+        if node_index == {}:
+            return [], []
         # map saliency score to word
         saliency = [x[vocab[node_index[ind]]] for ind, x in enumerate(saliency)]
         if scores > 0.5:
@@ -160,6 +164,10 @@ def top_words_graph(doc, model, vectorizer, tokenize_func, vocab, inv_vocab, dev
     # importance score
     importance = explanation.node_mask
     token_score = []
+
+    if tokens_used == {}:
+        return []
+
     for index, el in enumerate(importance):
         token_score += [(list(tokens_used.keys())[index], el)]
     token_score = sorted(token_score, key=lambda tup: tup[1], reverse=True)
