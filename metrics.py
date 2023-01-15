@@ -60,7 +60,7 @@ def compute_all_metrics(dataset, interpretability_methods, output_file,
     graph_aopc_for = []
     graph_sp_for = []
     for doc in tqdm(dataset['data']):
-        graph_for = interpretability_methods(doc, model, vectorizer, tokenize_func, vocab, inv_vocab, device, mode)
+        graph_for, _ = interpretability_methods(doc, model, vectorizer, tokenize_func, vocab, inv_vocab, device, mode)
         graph_set_for += [graph_for]
         graph_aopc_for += [compute_perturbation_curve(doc, model, vectorizer, tokenize_func, vocab, graph_for, mode)]
         graph_sp_for += [switching_point(doc, model, vectorizer, tokenize_func, vocab, graph_for, mode)]

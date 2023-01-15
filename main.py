@@ -2,6 +2,10 @@ from dataset import *
 from interpretability_methods import *
 from metrics import *
 from models import *
+import os
+
+if not os.path.exists('./results'):
+    os.makedirs('./results')
 
 datasets = ['20_news_group', 'movie']
 

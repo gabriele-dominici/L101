@@ -171,4 +171,4 @@ def top_words_graph(doc, model, vectorizer, tokenize_func, vocab, inv_vocab, dev
     for index, el in enumerate(importance):
         token_score += [(list(tokens_used.keys())[index], el)]
     token_score = sorted(token_score, key=lambda tup: tup[1], reverse=True)
-    return [i[0] for i in token_score]
+    return [i[0] for i in token_score], ''
